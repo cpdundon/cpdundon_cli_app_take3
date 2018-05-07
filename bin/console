@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "cpdundon_cli_app_take3"
+#require "cpdundon_cli_app_take3"
 
 require "irb"
 require_relative "../lib/config"

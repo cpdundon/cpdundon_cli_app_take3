@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'cpdundon_cli_app_take3'
+require_relative 'config'
 
 cli = CLI.new(8530973, 8518750, 'New York Harbor')
 cli.main
