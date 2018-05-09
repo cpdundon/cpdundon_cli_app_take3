@@ -13,7 +13,7 @@ class GetActiveStations < NOAA_SOAP
 	end
 
 	def pull_data
-		message = {urn: "ActiveStations"}
+		message = {getActiveStationsV2Request: "impl:getActiveStationsV2Request"}
 		
 		response = self.pull_response(:get_active_stations_v2, message)
 		#response.to_hash[:wind_measurements][:data][:item] #this returns a hash of the data points.
