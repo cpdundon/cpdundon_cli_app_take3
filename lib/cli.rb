@@ -32,8 +32,8 @@ class CLI
 				gwl = GetWaterLevel.new
 				gwv = GetWind.new
 
-				wl_data = gwl.pull_data
-				wv_data = gwv.pull_data
+				wl_data = gwl.pull_data(self.tideId)
+				wv_data = gwv.pull_data(self.windId)
 				
 				wl = NOAA_SOAP.most_recent(wl_data)
 				wv = NOAA_SOAP.most_recent(wv_data)

@@ -12,8 +12,13 @@ class NOAA_SOAP
 		create_client(wsdl)
 	end
 	
-	def pull_response(operation, message)		
-		response = self.client.call(operation, message: message)
+	def pull_response(operation, message = nil)
+		if !!message		
+			response = self.client.call(operation, message: message)
+		else
+			response = self.client.call(operation)
+		end
+
 		response
 	rescue Savon::SOAPFault => error
 	    fault_code = error.to_hash[:fault][:faultcode]
