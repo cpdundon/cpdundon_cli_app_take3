@@ -25,6 +25,10 @@ private
 
 
 	def self.pull_data
+#		puts "============================="
+#		puts "******* PULLING DATA ********"
+#		puts "============================="		
+
 		@@doc = []
 		@@water_level = []
 		@@winds = []
@@ -36,14 +40,23 @@ private
 			iD = e.xpath(".").attribute("ID").value
 			name = e.xpath(".").attribute("name").value			
 
+			handle = e.xpath("./metadataV2/shef_id")[0].text 
 			state = e.xpath("./metadataV2/location/state")[0].text
 			local = ((state == "NY") || (state == "NJ") || (state == "CT"))		
 						
 			water = e.xpath("./parameter[contains(@name, 'Water Level')]")
-			wind = e.xpath("./parameter[contains(@name, 'Winds')]")
+			winds = e.xpath("./parameter[contains(@name, 'Winds')]")
 			
-			@@winds << {:name => name, :iD => iD, :state => state} if local && wind.size > 0
-			@@water_level << {:name => name, :iD => iD, :state => state} if local && water.size > 0	
+			sta = Station.new
+			sta.iD = iD
+			sta.name = name
+			sta.handle = handle
+			sta.state = state
+			sta.water_level = water.size > 0
+			sta.winds = winds.size > 0						
+
+			@@winds << sta if local && sta.winds
+			@@water_level << sta if local && sta.water_level	
 		end
 	end	
 end

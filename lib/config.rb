@@ -4,6 +4,7 @@ require_relative './get_water_level'
 require_relative './get_wind'
 require_relative './get_active_stations'
 require_relative './cli'
+require_relative './station'
 
 require 'time'
 require 'savon'
