@@ -30,7 +30,7 @@ private
 		client = Savon.client(wsdl: wsdl, \
 				open_timeout: 30, \
 				read_timeout: 30, \
-				log: false, \
+				log: true, \
 				follow_redirects: true)
 
 		@client = client
