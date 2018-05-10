@@ -1,26 +1,50 @@
 require_relative './config'
 
-class GetActiveStations < NOAA_SOAP
+class GetActiveStations
 	
-	#WSDL = "https://opendap.co-ops.nos.noaa.gov/axis/services/ActiveStations?wsdl"
-	WSDL = '../run_support/ActiveStations.xml'	
+	@@doc = []
+	@@water_level = []
+	@@winds = []	
 
+	FILE_PATH = "../run_support/responseStations.xml"
 
 	def initialize
-		super WSDL
+		self.class.pull_data
 	end
 	
-	def client
-		super	
+	def self.doc
+		self.pull_data if @@doc == []
+		@@doc
 	end
 
-	def pull_data
-		message = {soap_action: "Body"}
-		reaponse = self.client.call(:get_active_stations_v2, message) #, soap_action: '"urn:ActiveStationsV2"')
-		
-		#response = self.pull_response(:get_active_stations_v2, message)
-		#response.to_hash[:wind_measurements][:data][:item] #this returns a hash of the data points.
-		response
+	def self.water_level
+		self.pull_data if @@wind_level == []		
+		@@water_level
 	end
-	
+
+	def self.winds
+		self.pull_data if @@winds == []		
+		@@winds
+	end
+
+private
+	def self.pull_data
+		@@doc = []
+		@@water_level = []
+		@@winds = []
+		
+		@@doc = File.open(FILE_PATH) { |f| Nokogiri::XML(f) }
+
+		stations = self.class.doc.xpath("//stationV2")		
+		stations.each_entry do |e|
+			state = e.xpath("./metadataV2/location/state")[0].text
+			local = ((state == "NY") || (state == "NJ") || (state == "CT"))		
+						
+			water = e.xpath("./parameter[contains(@name, 'Water Level')]")
+			wind = e.xpath("./parameter[contains(@name, 'Winds')]")
+			
+			@@winds << e.xpath(".") if local && wind.size > 0
+			@@water_level << e.xpath(".") if local && water.size > 0	
+		end
+	end	
 end
