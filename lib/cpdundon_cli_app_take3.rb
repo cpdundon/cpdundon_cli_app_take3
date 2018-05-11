@@ -7,4 +7,6 @@ module CpdundonCliAppTake3
   require 'get_wind'
   require 'cli'
   require 'config'
+  require 'station'
+  require 'get_active_stations'
 end

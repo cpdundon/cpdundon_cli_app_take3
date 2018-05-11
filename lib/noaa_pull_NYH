@@ -2,5 +2,5 @@
 
 require 'cpdundon_cli_app_take3'
 
-cli = CLI.new(8530973, 8518750, 'New York Harbor')
+cli = CLI.new
 cli.main
