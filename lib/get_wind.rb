@@ -12,8 +12,8 @@ class GetWind < NOAA_SOAP
 		super	
 	end
 
-	def pull_data (station_id = 8454000)
-		message = {stationId: station_id.to_s, beginDate: GMT.gmt_less_1h, endDate: GMT.gmt_now, \
+	def pull_data (station_id)
+		message = {stationId: station_id, beginDate: GMT.gmt_less_1h, endDate: GMT.gmt_now, \
 			unit: "Meters", timeZone: 0}
 		
 		response = self.pull_response(:get_wind_and_metadata, message)

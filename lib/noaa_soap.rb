@@ -8,7 +8,7 @@ class NOAA_SOAP
 		d
 	end
 
-	def initialize(wsdl = "https://opendap.co-ops.nos.noaa.gov/axis/webservices/waterlevelrawsixmin/wsdl/WaterLevelRawSixMin.wsdl")
+	def initialize(wsdl)
 		create_client(wsdl)
 	end
 	
@@ -30,10 +30,16 @@ private
 		client = Savon.client(wsdl: wsdl, \
 				open_timeout: 30, \
 				read_timeout: 30, \
-				log: true, \
+				log: false, \
 				follow_redirects: true)
 
 		@client = client
 		self.client
 	end	
+end
+
+class CustomError < StandardError
+	def initialize(msg)
+		super
+	end
 end

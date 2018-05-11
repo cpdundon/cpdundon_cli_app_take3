@@ -24,10 +24,7 @@ private
 	end
 
 
-	def self.pull_data
-#		puts "============================="
-#		puts "******* PULLING DATA ********"
-#		puts "============================="		
+	def self.pull_data		
 
 		@@doc = []
 		@@water_level = []
@@ -42,6 +39,7 @@ private
 
 			handle = e.xpath("./metadataV2/shef_id")[0].text 
 			state = e.xpath("./metadataV2/location/state")[0].text
+			lat = e.xpath("./metadataV2/location/lat")[0].text
 			local = ((state == "NY") || (state == "NJ") || (state == "CT"))		
 						
 			water = e.xpath("./parameter[contains(@name, 'Water Level')]")
@@ -56,7 +54,8 @@ private
 			sta.winds = winds.size > 0						
 
 			@@winds << sta if local && sta.winds
-			@@water_level << sta if local && sta.water_level	
+			@@water_level << sta if local && sta.water_level && lat.to_f < 42.5 
+			# the latitude restriction pevents weird lake depth calculation data from getting into the data.
 		end
 	end	
 end
