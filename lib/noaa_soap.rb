@@ -3,9 +3,14 @@ require_relative './config'
 class NOAA_SOAP
 	attr_reader :client	
 	
-	def self.most_recent(data)
-		d = data.sort { |x,y| y[:time_stamp] <=> x[:time_stamp] }[0]
-		d
+	def self.most_recent(data, count)
+		rtn = []
+		d = data.sort { |x,y| y[:time_stamp] <=> x[:time_stamp] }
+		
+		(1..count).each do |i|
+			rtn << d[i - 1]
+		end
+		rtn
 	end
 
 	def initialize(wsdl)
