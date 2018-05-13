@@ -26,7 +26,7 @@ class CalcCurrent
 		@@static_data
 	end
 
-	def self.t_fac
+	def self.tanh_fac
 		@@tanh_fac
 	end
 
@@ -41,14 +41,11 @@ class CalcCurrent
 		
 		return "Missisng Depth Delta information."  if !!!self.depth_delta
 		
-		depth = depth_from_loc(location) # this maps location to a depth from radial tdc in the river channel.
-		
-
-#puts "Depth is: " + depth.to_s
+		depth = depth_from_loc(location) # this maps location to a depth from radial tdc in the river channel.		
 
 		stat = self.class.static
 		rdh = stat.select { |e| e.depth == depth.to_i }[0]
-		puts "Checking RDH: " + rdh.depth.to_s
+
 		surf_current = self.depth_delta * rdh.normalized_tanh * Estuary_Length
 		
 		rdu = RiverData_Surf.new
@@ -76,7 +73,7 @@ private
 			rdh.depth = Depth - i
 			rdh.height = i
 			rdh.depth_radius = Shaft_Radius - i
-			rdh.normalized_tanh = tanh(Gamma * i) / self.class.t_fac
+			rdh.normalized_tanh = tanh(Gamma * i) / self.class.tanh_fac
 			self.class.static << rdh
 		end
 	end
@@ -86,9 +83,7 @@ private
 		
 		r_tdc2 = r_tdc ** 2
 		l2 = loc ** 2
-#puts "l2 => " + l2.to_s + " r_tdc2 => " + r_tdc2.to_s
 		r_loc = sqrt(r_tdc2 + l2)
-#puts "r_loc => " + r_loc.to_s 
 		depth = (r_loc - r_tdc).floor
 		depth
 	end
