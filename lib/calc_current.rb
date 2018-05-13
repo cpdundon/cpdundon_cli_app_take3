@@ -43,9 +43,12 @@ class CalcCurrent
 		
 		depth = depth_from_loc(location) # this maps location to a depth from radial tdc in the river channel.
 		
+
+#puts "Depth is: " + depth.to_s
+
 		stat = self.class.static
-		rdh = stat.select { |e| e.depth == depth }[0]
-		
+		rdh = stat.select { |e| e.depth == depth.to_i }[0]
+		puts "Checking RDH: " + rdh.depth.to_s
 		surf_current = self.depth_delta * rdh.normalized_tanh * Estuary_Length
 		
 		rdu = RiverData_Surf.new
@@ -79,11 +82,14 @@ private
 	end
 
 	def depth_from_loc(loc)
-		l = loc.abs
 		r_tdc = Shaft_Radius - Depth
-		theta = atan(l/r_tdc)
-		shaft_r_loc = r_tdc / cos(theta)
-		depth = (shaft_r_loc - r_tdc).floor
+		
+		r_tdc2 = r_tdc ** 2
+		l2 = loc ** 2
+#puts "l2 => " + l2.to_s + " r_tdc2 => " + r_tdc2.to_s
+		r_loc = sqrt(r_tdc2 + l2)
+#puts "r_loc => " + r_loc.to_s 
+		depth = (r_loc - r_tdc).floor
 		depth
 	end
 	

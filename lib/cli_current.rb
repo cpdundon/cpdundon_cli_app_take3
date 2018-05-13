@@ -99,8 +99,8 @@ private
 				kts = rdu.c_velocity_kts
 				
 				puts "Using #{self.tideLocation}:"
-				puts "The 6 minute water level difference is #{'%.4f' %wl_delta_6min} meters:"
-				puts "The current #{input} meter(s) away from center channel is #{'%.4f' %kts}."
+				puts "The 6 minute water level difference is #{'%.3f' %wl_delta_6min} meters:"
+				puts "The current #{input} meter(s) away from center channel is #{'%.2f' %kts} knots."
 			end
 
 			if input == "new"
