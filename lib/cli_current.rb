@@ -72,10 +72,13 @@ private
 		puts "======================================="
 		puts
 		
+		
 		gwl = GetWaterLevel.new
 		wl_data = gwl.pull_data(self.tideID)
 		wl_chg_data = NOAA_SOAP.most_recent(wl_data, 2)
 		wl_delta_6min = wl_chg_data[0][:wl].to_f - wl_chg_data[1][:wl].to_f		
+
+		cc = CalcCurrent.new
 
 		until (input == "exit") do
 			puts "Enter your location in meters away from center channel (-500...500)."
@@ -90,9 +93,14 @@ private
 
 			if input == input.to_i.to_s && input.to_i >= -500 && input.to_i <= 500				
 				
+				rdu = cc.calc_surface_current(input.to_i, wl_delta_6min)
+				return "Error" if rdu.class != RiverData_Surf
+
+				kts = rdu.c_velocity_kts
+				
 				puts "Using #{self.tideLocation}:"
 				puts "The 6 minute water level difference is #{'%.4f' %wl_delta_6min} meters:"
-				puts "The current #{input} meter(s) away from center channel is #{"NEED TO CODE THIS OUT"}."
+				puts "The current #{input} meter(s) away from center channel is #{'%.4f' %kts}."
 			end
 
 			if input == "new"
