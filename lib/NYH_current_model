@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'cpdundon_cli_app_take3'
+
+cli = CLICurrent.new
+cli.main

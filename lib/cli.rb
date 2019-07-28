@@ -91,8 +91,8 @@ private
 				wl_data = gwl.pull_data(self.tideID)
 				wv_data = gwv.pull_data(self.windID)
 				
-				wl = NOAA_SOAP.most_recent(wl_data)
-				wv = NOAA_SOAP.most_recent(wv_data)
+				wl = NOAA_SOAP.most_recent(wl_data)[0]
+				wv = NOAA_SOAP.most_recent(wv_data)[0]
 				
 				puts "Using #{self.windLocation}:"
 				puts "Wind station time is #{wv[:time_stamp]} GMT:"
