@@ -1,8 +1,9 @@
 require_relative './config'
+#require_relative './responseStations'
 
 class GetActiveStations
 
-	FILE_PATH = "../run_support/responseStations.xml"	
+	FILE_PATH = "./run_support/responseStations.xml"	
 
 	@@doc = []
 	@@water_level = []
@@ -29,7 +30,6 @@ private
 		@@doc = []
 		@@water_level = []
 		@@winds = []
-		
 		@@doc = File.open(FILE_PATH) { |f| Nokogiri::XML(f) }
 
 		stations = self.doc.xpath("//stationV2")		

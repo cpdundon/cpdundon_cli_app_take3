@@ -1,7 +1,9 @@
-source "https://rubygems.org"
+gem "nokogiri"
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+gem "bundler", "~> 1.16"
+gem "rake", "~> 10.0"
+gem "rspec", "~> 3.0"
+gem "pry"
 
-# Specify your gem's dependencies in cpdundon_cli_app_take3.gemspec
-gemspec
-#require 'cpdundon_cli_app_take3'
+gem "savon", "~>2"
+
